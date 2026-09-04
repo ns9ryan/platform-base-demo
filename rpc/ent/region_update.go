@@ -76,20 +76,6 @@ func (_u *RegionUpdate) SetUpdatedAt(v time.Time) *RegionUpdate {
 	return _u
 }
 
-// SetCode sets the "code" field.
-func (_u *RegionUpdate) SetCode(v string) *RegionUpdate {
-	_u.mutation.SetCode(v)
-	return _u
-}
-
-// SetNillableCode sets the "code" field if the given value is not nil.
-func (_u *RegionUpdate) SetNillableCode(v *string) *RegionUpdate {
-	if v != nil {
-		_u.SetCode(*v)
-	}
-	return _u
-}
-
 // SetCallingCode sets the "calling_code" field.
 func (_u *RegionUpdate) SetCallingCode(v string) *RegionUpdate {
 	_u.mutation.SetCallingCode(v)
@@ -158,11 +144,6 @@ func (_u *RegionUpdate) check() error {
 			return &ValidationError{Name: "status", err: fmt.Errorf(`ent: validator failed for field "Region.status": %w`, err)}
 		}
 	}
-	if v, ok := _u.mutation.Code(); ok {
-		if err := region.CodeValidator(v); err != nil {
-			return &ValidationError{Name: "code", err: fmt.Errorf(`ent: validator failed for field "Region.code": %w`, err)}
-		}
-	}
 	if v, ok := _u.mutation.CallingCode(); ok {
 		if err := region.CallingCodeValidator(v); err != nil {
 			return &ValidationError{Name: "calling_code", err: fmt.Errorf(`ent: validator failed for field "Region.calling_code": %w`, err)}
@@ -197,9 +178,6 @@ func (_u *RegionUpdate) sqlSave(ctx context.Context) (_node int, err error) {
 	}
 	if value, ok := _u.mutation.UpdatedAt(); ok {
 		_spec.SetField(region.FieldUpdatedAt, field.TypeTime, value)
-	}
-	if value, ok := _u.mutation.Code(); ok {
-		_spec.SetField(region.FieldCode, field.TypeString, value)
 	}
 	if value, ok := _u.mutation.CallingCode(); ok {
 		_spec.SetField(region.FieldCallingCode, field.TypeString, value)
@@ -272,20 +250,6 @@ func (_u *RegionUpdateOne) AddSortNo(v int64) *RegionUpdateOne {
 // SetUpdatedAt sets the "updated_at" field.
 func (_u *RegionUpdateOne) SetUpdatedAt(v time.Time) *RegionUpdateOne {
 	_u.mutation.SetUpdatedAt(v)
-	return _u
-}
-
-// SetCode sets the "code" field.
-func (_u *RegionUpdateOne) SetCode(v string) *RegionUpdateOne {
-	_u.mutation.SetCode(v)
-	return _u
-}
-
-// SetNillableCode sets the "code" field if the given value is not nil.
-func (_u *RegionUpdateOne) SetNillableCode(v *string) *RegionUpdateOne {
-	if v != nil {
-		_u.SetCode(*v)
-	}
 	return _u
 }
 
@@ -370,11 +334,6 @@ func (_u *RegionUpdateOne) check() error {
 			return &ValidationError{Name: "status", err: fmt.Errorf(`ent: validator failed for field "Region.status": %w`, err)}
 		}
 	}
-	if v, ok := _u.mutation.Code(); ok {
-		if err := region.CodeValidator(v); err != nil {
-			return &ValidationError{Name: "code", err: fmt.Errorf(`ent: validator failed for field "Region.code": %w`, err)}
-		}
-	}
 	if v, ok := _u.mutation.CallingCode(); ok {
 		if err := region.CallingCodeValidator(v); err != nil {
 			return &ValidationError{Name: "calling_code", err: fmt.Errorf(`ent: validator failed for field "Region.calling_code": %w`, err)}
@@ -426,9 +385,6 @@ func (_u *RegionUpdateOne) sqlSave(ctx context.Context) (_node *Region, err erro
 	}
 	if value, ok := _u.mutation.UpdatedAt(); ok {
 		_spec.SetField(region.FieldUpdatedAt, field.TypeTime, value)
-	}
-	if value, ok := _u.mutation.Code(); ok {
-		_spec.SetField(region.FieldCode, field.TypeString, value)
 	}
 	if value, ok := _u.mutation.CallingCode(); ok {
 		_spec.SetField(region.FieldCallingCode, field.TypeString, value)

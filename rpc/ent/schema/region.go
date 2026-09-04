@@ -1,6 +1,8 @@
 package schema
 
 import (
+	"regexp"
+
 	"entgo.io/ent"
 	"entgo.io/ent/dialect"
 	"entgo.io/ent/dialect/entsql"
@@ -18,12 +20,18 @@ type Region struct {
 func (Region) Fields() []ent.Field {
 	return []ent.Field{
 		field.String("code").
+			NotEmpty().
+			MinLen(2).
 			MaxLen(2).
+			Match(regexp.MustCompile(`^[A-Z]{2}$`)).
 			Unique().
+			Immutable().
 			Comment("国家或地区编码"),
 
 		field.String("calling_code").
+			NotEmpty().
 			MaxLen(3).
+			Match(regexp.MustCompile(`^[0-9]{1,3}$`)).
 			Comment("国际电话区号, 不包含加号"),
 
 		field.JSON("name_i18n", map[string]string{}).

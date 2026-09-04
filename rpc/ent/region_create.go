@@ -342,18 +342,6 @@ func (u *RegionUpsert) UpdateUpdatedAt() *RegionUpsert {
 	return u
 }
 
-// SetCode sets the "code" field.
-func (u *RegionUpsert) SetCode(v string) *RegionUpsert {
-	u.Set(region.FieldCode, v)
-	return u
-}
-
-// UpdateCode sets the "code" field to the value that was provided on create.
-func (u *RegionUpsert) UpdateCode() *RegionUpsert {
-	u.SetExcluded(region.FieldCode)
-	return u
-}
-
 // SetCallingCode sets the "calling_code" field.
 func (u *RegionUpsert) SetCallingCode(v string) *RegionUpsert {
 	u.Set(region.FieldCallingCode, v)
@@ -397,6 +385,9 @@ func (u *RegionUpsertOne) UpdateNewValues() *RegionUpsertOne {
 		}
 		if _, exists := u.create.mutation.CreatedAt(); exists {
 			s.SetIgnore(region.FieldCreatedAt)
+		}
+		if _, exists := u.create.mutation.Code(); exists {
+			s.SetIgnore(region.FieldCode)
 		}
 	}))
 	return u
@@ -482,20 +473,6 @@ func (u *RegionUpsertOne) SetUpdatedAt(v time.Time) *RegionUpsertOne {
 func (u *RegionUpsertOne) UpdateUpdatedAt() *RegionUpsertOne {
 	return u.Update(func(s *RegionUpsert) {
 		s.UpdateUpdatedAt()
-	})
-}
-
-// SetCode sets the "code" field.
-func (u *RegionUpsertOne) SetCode(v string) *RegionUpsertOne {
-	return u.Update(func(s *RegionUpsert) {
-		s.SetCode(v)
-	})
-}
-
-// UpdateCode sets the "code" field to the value that was provided on create.
-func (u *RegionUpsertOne) UpdateCode() *RegionUpsertOne {
-	return u.Update(func(s *RegionUpsert) {
-		s.UpdateCode()
 	})
 }
 
@@ -712,6 +689,9 @@ func (u *RegionUpsertBulk) UpdateNewValues() *RegionUpsertBulk {
 			if _, exists := b.mutation.CreatedAt(); exists {
 				s.SetIgnore(region.FieldCreatedAt)
 			}
+			if _, exists := b.mutation.Code(); exists {
+				s.SetIgnore(region.FieldCode)
+			}
 		}
 	}))
 	return u
@@ -797,20 +777,6 @@ func (u *RegionUpsertBulk) SetUpdatedAt(v time.Time) *RegionUpsertBulk {
 func (u *RegionUpsertBulk) UpdateUpdatedAt() *RegionUpsertBulk {
 	return u.Update(func(s *RegionUpsert) {
 		s.UpdateUpdatedAt()
-	})
-}
-
-// SetCode sets the "code" field.
-func (u *RegionUpsertBulk) SetCode(v string) *RegionUpsertBulk {
-	return u.Update(func(s *RegionUpsert) {
-		s.SetCode(v)
-	})
-}
-
-// UpdateCode sets the "code" field to the value that was provided on create.
-func (u *RegionUpsertBulk) UpdateCode() *RegionUpsertBulk {
-	return u.Update(func(s *RegionUpsert) {
-		s.UpdateCode()
 	})
 }
 

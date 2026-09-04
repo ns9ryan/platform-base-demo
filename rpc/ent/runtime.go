@@ -150,11 +150,42 @@ func init() {
 	// regionDescCode is the schema descriptor for code field.
 	regionDescCode := regionFields[0].Descriptor()
 	// region.CodeValidator is a validator for the "code" field. It is called by the builders before save.
-	region.CodeValidator = regionDescCode.Validators[0].(func(string) error)
+	region.CodeValidator = func() func(string) error {
+		validators := regionDescCode.Validators
+		fns := [...]func(string) error{
+			validators[0].(func(string) error),
+			validators[1].(func(string) error),
+			validators[2].(func(string) error),
+			validators[3].(func(string) error),
+		}
+		return func(code string) error {
+			for _, fn := range fns {
+				if err := fn(code); err != nil {
+					return err
+				}
+			}
+			return nil
+		}
+	}()
 	// regionDescCallingCode is the schema descriptor for calling_code field.
 	regionDescCallingCode := regionFields[1].Descriptor()
 	// region.CallingCodeValidator is a validator for the "calling_code" field. It is called by the builders before save.
-	region.CallingCodeValidator = regionDescCallingCode.Validators[0].(func(string) error)
+	region.CallingCodeValidator = func() func(string) error {
+		validators := regionDescCallingCode.Validators
+		fns := [...]func(string) error{
+			validators[0].(func(string) error),
+			validators[1].(func(string) error),
+			validators[2].(func(string) error),
+		}
+		return func(calling_code string) error {
+			for _, fn := range fns {
+				if err := fn(calling_code); err != nil {
+					return err
+				}
+			}
+			return nil
+		}
+	}()
 	timezoneMixin := schema.Timezone{}.Mixin()
 	timezoneMixinFields1 := timezoneMixin[1].Fields()
 	_ = timezoneMixinFields1
