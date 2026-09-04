@@ -16,7 +16,6 @@ type SortMixin struct {
 func (SortMixin) Fields() []ent.Field {
 	return []ent.Field{
 		field.Int64("sort_no").
-			Default(0).
 			SchemaType(map[string]string{
 				dialect.Postgres: "integer",
 			}).

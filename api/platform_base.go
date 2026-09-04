@@ -7,11 +7,12 @@ import (
 	"flag"
 	"fmt"
 
-	"github.com/zeromicro/go-zero/core/conf"
-	"github.com/zeromicro/go-zero/rest"
 	"oa.98ent.com/p9/platform-base/api/internal/config"
 	"oa.98ent.com/p9/platform-base/api/internal/handler"
 	"oa.98ent.com/p9/platform-base/api/internal/svc"
+
+	"github.com/zeromicro/go-zero/core/conf"
+	"github.com/zeromicro/go-zero/rest"
 )
 
 var configFile = flag.String("f", "etc/platform_base.yaml", "the config file")

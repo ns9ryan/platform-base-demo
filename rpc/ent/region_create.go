@@ -42,14 +42,6 @@ func (_c *RegionCreate) SetSortNo(v int64) *RegionCreate {
 	return _c
 }
 
-// SetNillableSortNo sets the "sort_no" field if the given value is not nil.
-func (_c *RegionCreate) SetNillableSortNo(v *int64) *RegionCreate {
-	if v != nil {
-		_c.SetSortNo(*v)
-	}
-	return _c
-}
-
 // SetCreatedAt sets the "created_at" field.
 func (_c *RegionCreate) SetCreatedAt(v time.Time) *RegionCreate {
 	_c.mutation.SetCreatedAt(v)
@@ -141,10 +133,6 @@ func (_c *RegionCreate) defaults() {
 		v := region.DefaultStatus
 		_c.mutation.SetStatus(v)
 	}
-	if _, ok := _c.mutation.SortNo(); !ok {
-		v := region.DefaultSortNo
-		_c.mutation.SetSortNo(v)
-	}
 	if _, ok := _c.mutation.CreatedAt(); !ok {
 		v := region.DefaultCreatedAt()
 		_c.mutation.SetCreatedAt(v)
@@ -159,6 +147,11 @@ func (_c *RegionCreate) defaults() {
 func (_c *RegionCreate) check() error {
 	if _, ok := _c.mutation.Status(); !ok {
 		return &ValidationError{Name: "status", err: errors.New(`ent: missing required field "Region.status"`)}
+	}
+	if v, ok := _c.mutation.Status(); ok {
+		if err := region.StatusValidator(v); err != nil {
+			return &ValidationError{Name: "status", err: fmt.Errorf(`ent: validator failed for field "Region.status": %w`, err)}
+		}
 	}
 	if _, ok := _c.mutation.SortNo(); !ok {
 		return &ValidationError{Name: "sort_no", err: errors.New(`ent: missing required field "Region.sort_no"`)}

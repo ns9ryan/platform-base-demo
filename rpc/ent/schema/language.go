@@ -18,8 +18,10 @@ type Language struct {
 func (Language) Fields() []ent.Field {
 	return []ent.Field{
 		field.String("code").
+			NotEmpty().
 			MaxLen(35).
 			Unique().
+			Immutable().
 			Comment("语言编码"),
 
 		field.JSON("name_i18n", map[string]string{}).

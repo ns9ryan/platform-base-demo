@@ -7,16 +7,17 @@ import (
 	"entgo.io/ent/schema/mixin"
 )
 
-// StatusMixin 通用状态字段, 适用于多状态场景
+// StatusMixin 通用启停状态字段
 type StatusMixin struct {
 	mixin.Schema
 }
 
-// Fields 定义通用状态字段
+// Fields 定义通用启停状态字段
 func (StatusMixin) Fields() []ent.Field {
 	return []ent.Field{
 		field.Int64("status").
 			Default(1).
+			Range(1, 2).
 			SchemaType(map[string]string{
 				dialect.Postgres: "smallint",
 			}).

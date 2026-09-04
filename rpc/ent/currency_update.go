@@ -195,6 +195,11 @@ func (_u *CurrencyUpdate) defaults() {
 
 // check runs all checks and user-defined validators on the builder.
 func (_u *CurrencyUpdate) check() error {
+	if v, ok := _u.mutation.Status(); ok {
+		if err := currency.StatusValidator(v); err != nil {
+			return &ValidationError{Name: "status", err: fmt.Errorf(`ent: validator failed for field "Currency.status": %w`, err)}
+		}
+	}
 	if v, ok := _u.mutation.Code(); ok {
 		if err := currency.CodeValidator(v); err != nil {
 			return &ValidationError{Name: "code", err: fmt.Errorf(`ent: validator failed for field "Currency.code": %w`, err)}
@@ -456,6 +461,11 @@ func (_u *CurrencyUpdateOne) defaults() {
 
 // check runs all checks and user-defined validators on the builder.
 func (_u *CurrencyUpdateOne) check() error {
+	if v, ok := _u.mutation.Status(); ok {
+		if err := currency.StatusValidator(v); err != nil {
+			return &ValidationError{Name: "status", err: fmt.Errorf(`ent: validator failed for field "Currency.status": %w`, err)}
+		}
+	}
 	if v, ok := _u.mutation.Code(); ok {
 		if err := currency.CodeValidator(v); err != nil {
 			return &ValidationError{Name: "code", err: fmt.Errorf(`ent: validator failed for field "Currency.code": %w`, err)}

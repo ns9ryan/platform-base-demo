@@ -62,8 +62,8 @@ func ValidColumn(column string) bool {
 var (
 	// DefaultStatus holds the default value on creation for the "status" field.
 	DefaultStatus int64
-	// DefaultSortNo holds the default value on creation for the "sort_no" field.
-	DefaultSortNo int64
+	// StatusValidator is a validator for the "status" field. It is called by the builders before save.
+	StatusValidator func(int64) error
 	// DefaultCreatedAt holds the default value on creation for the "created_at" field.
 	DefaultCreatedAt func() time.Time
 	// DefaultUpdatedAt holds the default value on creation for the "updated_at" field.

@@ -139,6 +139,11 @@ func (_u *TimezoneUpdate) defaults() {
 
 // check runs all checks and user-defined validators on the builder.
 func (_u *TimezoneUpdate) check() error {
+	if v, ok := _u.mutation.Status(); ok {
+		if err := timezone.StatusValidator(v); err != nil {
+			return &ValidationError{Name: "status", err: fmt.Errorf(`ent: validator failed for field "Timezone.status": %w`, err)}
+		}
+	}
 	if v, ok := _u.mutation.Code(); ok {
 		if err := timezone.CodeValidator(v); err != nil {
 			return &ValidationError{Name: "code", err: fmt.Errorf(`ent: validator failed for field "Timezone.code": %w`, err)}
@@ -324,6 +329,11 @@ func (_u *TimezoneUpdateOne) defaults() {
 
 // check runs all checks and user-defined validators on the builder.
 func (_u *TimezoneUpdateOne) check() error {
+	if v, ok := _u.mutation.Status(); ok {
+		if err := timezone.StatusValidator(v); err != nil {
+			return &ValidationError{Name: "status", err: fmt.Errorf(`ent: validator failed for field "Timezone.status": %w`, err)}
+		}
+	}
 	if v, ok := _u.mutation.Code(); ok {
 		if err := timezone.CodeValidator(v); err != nil {
 			return &ValidationError{Name: "code", err: fmt.Errorf(`ent: validator failed for field "Timezone.code": %w`, err)}

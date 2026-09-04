@@ -13,7 +13,7 @@ var (
 	CurrencyColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeInt64, Increment: true, Comment: "主键ID", SchemaType: map[string]string{"postgres": "bigint"}},
 		{Name: "status", Type: field.TypeInt64, Comment: "状态: 1启用, 2停用", Default: 1, SchemaType: map[string]string{"postgres": "smallint"}},
-		{Name: "sort_no", Type: field.TypeInt64, Comment: "排序值, 数值越小越靠前", Default: 0, SchemaType: map[string]string{"postgres": "integer"}},
+		{Name: "sort_no", Type: field.TypeInt64, Comment: "排序值, 数值越小越靠前", SchemaType: map[string]string{"postgres": "integer"}},
 		{Name: "created_at", Type: field.TypeTime, Comment: "创建时间", SchemaType: map[string]string{"postgres": "timestamptz(3)"}},
 		{Name: "updated_at", Type: field.TypeTime, Comment: "更新时间", SchemaType: map[string]string{"postgres": "timestamptz(3)"}},
 		{Name: "code", Type: field.TypeString, Unique: true, Size: 16, Comment: "货币编码"},
@@ -33,7 +33,7 @@ var (
 	LanguageColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeInt64, Increment: true, Comment: "主键ID", SchemaType: map[string]string{"postgres": "bigint"}},
 		{Name: "status", Type: field.TypeInt64, Comment: "状态: 1启用, 2停用", Default: 1, SchemaType: map[string]string{"postgres": "smallint"}},
-		{Name: "sort_no", Type: field.TypeInt64, Comment: "排序值, 数值越小越靠前", Default: 0, SchemaType: map[string]string{"postgres": "integer"}},
+		{Name: "sort_no", Type: field.TypeInt64, Comment: "排序值, 数值越小越靠前", SchemaType: map[string]string{"postgres": "integer"}},
 		{Name: "created_at", Type: field.TypeTime, Comment: "创建时间", SchemaType: map[string]string{"postgres": "timestamptz(3)"}},
 		{Name: "updated_at", Type: field.TypeTime, Comment: "更新时间", SchemaType: map[string]string{"postgres": "timestamptz(3)"}},
 		{Name: "code", Type: field.TypeString, Unique: true, Size: 35, Comment: "语言编码"},
@@ -50,7 +50,7 @@ var (
 	RegionColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeInt64, Increment: true, Comment: "主键ID", SchemaType: map[string]string{"postgres": "bigint"}},
 		{Name: "status", Type: field.TypeInt64, Comment: "状态: 1启用, 2停用", Default: 1, SchemaType: map[string]string{"postgres": "smallint"}},
-		{Name: "sort_no", Type: field.TypeInt64, Comment: "排序值, 数值越小越靠前", Default: 0, SchemaType: map[string]string{"postgres": "integer"}},
+		{Name: "sort_no", Type: field.TypeInt64, Comment: "排序值, 数值越小越靠前", SchemaType: map[string]string{"postgres": "integer"}},
 		{Name: "created_at", Type: field.TypeTime, Comment: "创建时间", SchemaType: map[string]string{"postgres": "timestamptz(3)"}},
 		{Name: "updated_at", Type: field.TypeTime, Comment: "更新时间", SchemaType: map[string]string{"postgres": "timestamptz(3)"}},
 		{Name: "code", Type: field.TypeString, Unique: true, Size: 2, Comment: "国家或地区编码"},
@@ -68,7 +68,7 @@ var (
 	TimezoneColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeInt64, Increment: true, Comment: "主键ID", SchemaType: map[string]string{"postgres": "bigint"}},
 		{Name: "status", Type: field.TypeInt64, Comment: "状态: 1启用, 2停用", Default: 1, SchemaType: map[string]string{"postgres": "smallint"}},
-		{Name: "sort_no", Type: field.TypeInt64, Comment: "排序值, 数值越小越靠前", Default: 0, SchemaType: map[string]string{"postgres": "integer"}},
+		{Name: "sort_no", Type: field.TypeInt64, Comment: "排序值, 数值越小越靠前", SchemaType: map[string]string{"postgres": "integer"}},
 		{Name: "created_at", Type: field.TypeTime, Comment: "创建时间", SchemaType: map[string]string{"postgres": "timestamptz(3)"}},
 		{Name: "updated_at", Type: field.TypeTime, Comment: "更新时间", SchemaType: map[string]string{"postgres": "timestamptz(3)"}},
 		{Name: "code", Type: field.TypeString, Unique: true, Size: 64, Comment: "IANA 时区编码"},

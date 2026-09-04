@@ -76,20 +76,6 @@ func (_u *LanguageUpdate) SetUpdatedAt(v time.Time) *LanguageUpdate {
 	return _u
 }
 
-// SetCode sets the "code" field.
-func (_u *LanguageUpdate) SetCode(v string) *LanguageUpdate {
-	_u.mutation.SetCode(v)
-	return _u
-}
-
-// SetNillableCode sets the "code" field if the given value is not nil.
-func (_u *LanguageUpdate) SetNillableCode(v *string) *LanguageUpdate {
-	if v != nil {
-		_u.SetCode(*v)
-	}
-	return _u
-}
-
 // SetNameI18n sets the "name_i18n" field.
 func (_u *LanguageUpdate) SetNameI18n(v map[string]string) *LanguageUpdate {
 	_u.mutation.SetNameI18n(v)
@@ -139,9 +125,9 @@ func (_u *LanguageUpdate) defaults() {
 
 // check runs all checks and user-defined validators on the builder.
 func (_u *LanguageUpdate) check() error {
-	if v, ok := _u.mutation.Code(); ok {
-		if err := language.CodeValidator(v); err != nil {
-			return &ValidationError{Name: "code", err: fmt.Errorf(`ent: validator failed for field "Language.code": %w`, err)}
+	if v, ok := _u.mutation.Status(); ok {
+		if err := language.StatusValidator(v); err != nil {
+			return &ValidationError{Name: "status", err: fmt.Errorf(`ent: validator failed for field "Language.status": %w`, err)}
 		}
 	}
 	return nil
@@ -173,9 +159,6 @@ func (_u *LanguageUpdate) sqlSave(ctx context.Context) (_node int, err error) {
 	}
 	if value, ok := _u.mutation.UpdatedAt(); ok {
 		_spec.SetField(language.FieldUpdatedAt, field.TypeTime, value)
-	}
-	if value, ok := _u.mutation.Code(); ok {
-		_spec.SetField(language.FieldCode, field.TypeString, value)
 	}
 	if value, ok := _u.mutation.NameI18n(); ok {
 		_spec.SetField(language.FieldNameI18n, field.TypeJSON, value)
@@ -248,20 +231,6 @@ func (_u *LanguageUpdateOne) SetUpdatedAt(v time.Time) *LanguageUpdateOne {
 	return _u
 }
 
-// SetCode sets the "code" field.
-func (_u *LanguageUpdateOne) SetCode(v string) *LanguageUpdateOne {
-	_u.mutation.SetCode(v)
-	return _u
-}
-
-// SetNillableCode sets the "code" field if the given value is not nil.
-func (_u *LanguageUpdateOne) SetNillableCode(v *string) *LanguageUpdateOne {
-	if v != nil {
-		_u.SetCode(*v)
-	}
-	return _u
-}
-
 // SetNameI18n sets the "name_i18n" field.
 func (_u *LanguageUpdateOne) SetNameI18n(v map[string]string) *LanguageUpdateOne {
 	_u.mutation.SetNameI18n(v)
@@ -324,9 +293,9 @@ func (_u *LanguageUpdateOne) defaults() {
 
 // check runs all checks and user-defined validators on the builder.
 func (_u *LanguageUpdateOne) check() error {
-	if v, ok := _u.mutation.Code(); ok {
-		if err := language.CodeValidator(v); err != nil {
-			return &ValidationError{Name: "code", err: fmt.Errorf(`ent: validator failed for field "Language.code": %w`, err)}
+	if v, ok := _u.mutation.Status(); ok {
+		if err := language.StatusValidator(v); err != nil {
+			return &ValidationError{Name: "status", err: fmt.Errorf(`ent: validator failed for field "Language.status": %w`, err)}
 		}
 	}
 	return nil
@@ -375,9 +344,6 @@ func (_u *LanguageUpdateOne) sqlSave(ctx context.Context) (_node *Language, err 
 	}
 	if value, ok := _u.mutation.UpdatedAt(); ok {
 		_spec.SetField(language.FieldUpdatedAt, field.TypeTime, value)
-	}
-	if value, ok := _u.mutation.Code(); ok {
-		_spec.SetField(language.FieldCode, field.TypeString, value)
 	}
 	if value, ok := _u.mutation.NameI18n(); ok {
 		_spec.SetField(language.FieldNameI18n, field.TypeJSON, value)

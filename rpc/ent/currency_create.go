@@ -42,14 +42,6 @@ func (_c *CurrencyCreate) SetSortNo(v int64) *CurrencyCreate {
 	return _c
 }
 
-// SetNillableSortNo sets the "sort_no" field if the given value is not nil.
-func (_c *CurrencyCreate) SetNillableSortNo(v *int64) *CurrencyCreate {
-	if v != nil {
-		_c.SetSortNo(*v)
-	}
-	return _c
-}
-
 // SetCreatedAt sets the "created_at" field.
 func (_c *CurrencyCreate) SetCreatedAt(v time.Time) *CurrencyCreate {
 	_c.mutation.SetCreatedAt(v)
@@ -153,10 +145,6 @@ func (_c *CurrencyCreate) defaults() {
 		v := currency.DefaultStatus
 		_c.mutation.SetStatus(v)
 	}
-	if _, ok := _c.mutation.SortNo(); !ok {
-		v := currency.DefaultSortNo
-		_c.mutation.SetSortNo(v)
-	}
 	if _, ok := _c.mutation.CreatedAt(); !ok {
 		v := currency.DefaultCreatedAt()
 		_c.mutation.SetCreatedAt(v)
@@ -171,6 +159,11 @@ func (_c *CurrencyCreate) defaults() {
 func (_c *CurrencyCreate) check() error {
 	if _, ok := _c.mutation.Status(); !ok {
 		return &ValidationError{Name: "status", err: errors.New(`ent: missing required field "Currency.status"`)}
+	}
+	if v, ok := _c.mutation.Status(); ok {
+		if err := currency.StatusValidator(v); err != nil {
+			return &ValidationError{Name: "status", err: fmt.Errorf(`ent: validator failed for field "Currency.status": %w`, err)}
+		}
 	}
 	if _, ok := _c.mutation.SortNo(); !ok {
 		return &ValidationError{Name: "sort_no", err: errors.New(`ent: missing required field "Currency.sort_no"`)}

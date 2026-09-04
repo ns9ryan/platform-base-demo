@@ -19,8 +19,6 @@ func init() {
 	currencyMixin := schema.Currency{}.Mixin()
 	currencyMixinFields1 := currencyMixin[1].Fields()
 	_ = currencyMixinFields1
-	currencyMixinFields2 := currencyMixin[2].Fields()
-	_ = currencyMixinFields2
 	currencyMixinFields3 := currencyMixin[3].Fields()
 	_ = currencyMixinFields3
 	currencyFields := schema.Currency{}.Fields()
@@ -29,10 +27,8 @@ func init() {
 	currencyDescStatus := currencyMixinFields1[0].Descriptor()
 	// currency.DefaultStatus holds the default value on creation for the status field.
 	currency.DefaultStatus = currencyDescStatus.Default.(int64)
-	// currencyDescSortNo is the schema descriptor for sort_no field.
-	currencyDescSortNo := currencyMixinFields2[0].Descriptor()
-	// currency.DefaultSortNo holds the default value on creation for the sort_no field.
-	currency.DefaultSortNo = currencyDescSortNo.Default.(int64)
+	// currency.StatusValidator is a validator for the "status" field. It is called by the builders before save.
+	currency.StatusValidator = currencyDescStatus.Validators[0].(func(int64) error)
 	// currencyDescCreatedAt is the schema descriptor for created_at field.
 	currencyDescCreatedAt := currencyMixinFields3[0].Descriptor()
 	// currency.DefaultCreatedAt holds the default value on creation for the created_at field.
@@ -54,8 +50,6 @@ func init() {
 	languageMixin := schema.Language{}.Mixin()
 	languageMixinFields1 := languageMixin[1].Fields()
 	_ = languageMixinFields1
-	languageMixinFields2 := languageMixin[2].Fields()
-	_ = languageMixinFields2
 	languageMixinFields3 := languageMixin[3].Fields()
 	_ = languageMixinFields3
 	languageFields := schema.Language{}.Fields()
@@ -64,10 +58,8 @@ func init() {
 	languageDescStatus := languageMixinFields1[0].Descriptor()
 	// language.DefaultStatus holds the default value on creation for the status field.
 	language.DefaultStatus = languageDescStatus.Default.(int64)
-	// languageDescSortNo is the schema descriptor for sort_no field.
-	languageDescSortNo := languageMixinFields2[0].Descriptor()
-	// language.DefaultSortNo holds the default value on creation for the sort_no field.
-	language.DefaultSortNo = languageDescSortNo.Default.(int64)
+	// language.StatusValidator is a validator for the "status" field. It is called by the builders before save.
+	language.StatusValidator = languageDescStatus.Validators[0].(func(int64) error)
 	// languageDescCreatedAt is the schema descriptor for created_at field.
 	languageDescCreatedAt := languageMixinFields3[0].Descriptor()
 	// language.DefaultCreatedAt holds the default value on creation for the created_at field.
@@ -81,12 +73,24 @@ func init() {
 	// languageDescCode is the schema descriptor for code field.
 	languageDescCode := languageFields[0].Descriptor()
 	// language.CodeValidator is a validator for the "code" field. It is called by the builders before save.
-	language.CodeValidator = languageDescCode.Validators[0].(func(string) error)
+	language.CodeValidator = func() func(string) error {
+		validators := languageDescCode.Validators
+		fns := [...]func(string) error{
+			validators[0].(func(string) error),
+			validators[1].(func(string) error),
+		}
+		return func(code string) error {
+			for _, fn := range fns {
+				if err := fn(code); err != nil {
+					return err
+				}
+			}
+			return nil
+		}
+	}()
 	regionMixin := schema.Region{}.Mixin()
 	regionMixinFields1 := regionMixin[1].Fields()
 	_ = regionMixinFields1
-	regionMixinFields2 := regionMixin[2].Fields()
-	_ = regionMixinFields2
 	regionMixinFields3 := regionMixin[3].Fields()
 	_ = regionMixinFields3
 	regionFields := schema.Region{}.Fields()
@@ -95,10 +99,8 @@ func init() {
 	regionDescStatus := regionMixinFields1[0].Descriptor()
 	// region.DefaultStatus holds the default value on creation for the status field.
 	region.DefaultStatus = regionDescStatus.Default.(int64)
-	// regionDescSortNo is the schema descriptor for sort_no field.
-	regionDescSortNo := regionMixinFields2[0].Descriptor()
-	// region.DefaultSortNo holds the default value on creation for the sort_no field.
-	region.DefaultSortNo = regionDescSortNo.Default.(int64)
+	// region.StatusValidator is a validator for the "status" field. It is called by the builders before save.
+	region.StatusValidator = regionDescStatus.Validators[0].(func(int64) error)
 	// regionDescCreatedAt is the schema descriptor for created_at field.
 	regionDescCreatedAt := regionMixinFields3[0].Descriptor()
 	// region.DefaultCreatedAt holds the default value on creation for the created_at field.
@@ -120,8 +122,6 @@ func init() {
 	timezoneMixin := schema.Timezone{}.Mixin()
 	timezoneMixinFields1 := timezoneMixin[1].Fields()
 	_ = timezoneMixinFields1
-	timezoneMixinFields2 := timezoneMixin[2].Fields()
-	_ = timezoneMixinFields2
 	timezoneMixinFields3 := timezoneMixin[3].Fields()
 	_ = timezoneMixinFields3
 	timezoneFields := schema.Timezone{}.Fields()
@@ -130,10 +130,8 @@ func init() {
 	timezoneDescStatus := timezoneMixinFields1[0].Descriptor()
 	// timezone.DefaultStatus holds the default value on creation for the status field.
 	timezone.DefaultStatus = timezoneDescStatus.Default.(int64)
-	// timezoneDescSortNo is the schema descriptor for sort_no field.
-	timezoneDescSortNo := timezoneMixinFields2[0].Descriptor()
-	// timezone.DefaultSortNo holds the default value on creation for the sort_no field.
-	timezone.DefaultSortNo = timezoneDescSortNo.Default.(int64)
+	// timezone.StatusValidator is a validator for the "status" field. It is called by the builders before save.
+	timezone.StatusValidator = timezoneDescStatus.Validators[0].(func(int64) error)
 	// timezoneDescCreatedAt is the schema descriptor for created_at field.
 	timezoneDescCreatedAt := timezoneMixinFields3[0].Descriptor()
 	// timezone.DefaultCreatedAt holds the default value on creation for the created_at field.

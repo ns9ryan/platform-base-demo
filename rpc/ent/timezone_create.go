@@ -42,14 +42,6 @@ func (_c *TimezoneCreate) SetSortNo(v int64) *TimezoneCreate {
 	return _c
 }
 
-// SetNillableSortNo sets the "sort_no" field if the given value is not nil.
-func (_c *TimezoneCreate) SetNillableSortNo(v *int64) *TimezoneCreate {
-	if v != nil {
-		_c.SetSortNo(*v)
-	}
-	return _c
-}
-
 // SetCreatedAt sets the "created_at" field.
 func (_c *TimezoneCreate) SetCreatedAt(v time.Time) *TimezoneCreate {
 	_c.mutation.SetCreatedAt(v)
@@ -135,10 +127,6 @@ func (_c *TimezoneCreate) defaults() {
 		v := timezone.DefaultStatus
 		_c.mutation.SetStatus(v)
 	}
-	if _, ok := _c.mutation.SortNo(); !ok {
-		v := timezone.DefaultSortNo
-		_c.mutation.SetSortNo(v)
-	}
 	if _, ok := _c.mutation.CreatedAt(); !ok {
 		v := timezone.DefaultCreatedAt()
 		_c.mutation.SetCreatedAt(v)
@@ -153,6 +141,11 @@ func (_c *TimezoneCreate) defaults() {
 func (_c *TimezoneCreate) check() error {
 	if _, ok := _c.mutation.Status(); !ok {
 		return &ValidationError{Name: "status", err: errors.New(`ent: missing required field "Timezone.status"`)}
+	}
+	if v, ok := _c.mutation.Status(); ok {
+		if err := timezone.StatusValidator(v); err != nil {
+			return &ValidationError{Name: "status", err: fmt.Errorf(`ent: validator failed for field "Timezone.status": %w`, err)}
+		}
 	}
 	if _, ok := _c.mutation.SortNo(); !ok {
 		return &ValidationError{Name: "sort_no", err: errors.New(`ent: missing required field "Timezone.sort_no"`)}

@@ -42,14 +42,6 @@ func (_c *LanguageCreate) SetSortNo(v int64) *LanguageCreate {
 	return _c
 }
 
-// SetNillableSortNo sets the "sort_no" field if the given value is not nil.
-func (_c *LanguageCreate) SetNillableSortNo(v *int64) *LanguageCreate {
-	if v != nil {
-		_c.SetSortNo(*v)
-	}
-	return _c
-}
-
 // SetCreatedAt sets the "created_at" field.
 func (_c *LanguageCreate) SetCreatedAt(v time.Time) *LanguageCreate {
 	_c.mutation.SetCreatedAt(v)
@@ -135,10 +127,6 @@ func (_c *LanguageCreate) defaults() {
 		v := language.DefaultStatus
 		_c.mutation.SetStatus(v)
 	}
-	if _, ok := _c.mutation.SortNo(); !ok {
-		v := language.DefaultSortNo
-		_c.mutation.SetSortNo(v)
-	}
 	if _, ok := _c.mutation.CreatedAt(); !ok {
 		v := language.DefaultCreatedAt()
 		_c.mutation.SetCreatedAt(v)
@@ -153,6 +141,11 @@ func (_c *LanguageCreate) defaults() {
 func (_c *LanguageCreate) check() error {
 	if _, ok := _c.mutation.Status(); !ok {
 		return &ValidationError{Name: "status", err: errors.New(`ent: missing required field "Language.status"`)}
+	}
+	if v, ok := _c.mutation.Status(); ok {
+		if err := language.StatusValidator(v); err != nil {
+			return &ValidationError{Name: "status", err: fmt.Errorf(`ent: validator failed for field "Language.status": %w`, err)}
+		}
 	}
 	if _, ok := _c.mutation.SortNo(); !ok {
 		return &ValidationError{Name: "sort_no", err: errors.New(`ent: missing required field "Language.sort_no"`)}
@@ -331,18 +324,6 @@ func (u *LanguageUpsert) UpdateUpdatedAt() *LanguageUpsert {
 	return u
 }
 
-// SetCode sets the "code" field.
-func (u *LanguageUpsert) SetCode(v string) *LanguageUpsert {
-	u.Set(language.FieldCode, v)
-	return u
-}
-
-// UpdateCode sets the "code" field to the value that was provided on create.
-func (u *LanguageUpsert) UpdateCode() *LanguageUpsert {
-	u.SetExcluded(language.FieldCode)
-	return u
-}
-
 // SetNameI18n sets the "name_i18n" field.
 func (u *LanguageUpsert) SetNameI18n(v map[string]string) *LanguageUpsert {
 	u.Set(language.FieldNameI18n, v)
@@ -374,6 +355,9 @@ func (u *LanguageUpsertOne) UpdateNewValues() *LanguageUpsertOne {
 		}
 		if _, exists := u.create.mutation.CreatedAt(); exists {
 			s.SetIgnore(language.FieldCreatedAt)
+		}
+		if _, exists := u.create.mutation.Code(); exists {
+			s.SetIgnore(language.FieldCode)
 		}
 	}))
 	return u
@@ -459,20 +443,6 @@ func (u *LanguageUpsertOne) SetUpdatedAt(v time.Time) *LanguageUpsertOne {
 func (u *LanguageUpsertOne) UpdateUpdatedAt() *LanguageUpsertOne {
 	return u.Update(func(s *LanguageUpsert) {
 		s.UpdateUpdatedAt()
-	})
-}
-
-// SetCode sets the "code" field.
-func (u *LanguageUpsertOne) SetCode(v string) *LanguageUpsertOne {
-	return u.Update(func(s *LanguageUpsert) {
-		s.SetCode(v)
-	})
-}
-
-// UpdateCode sets the "code" field to the value that was provided on create.
-func (u *LanguageUpsertOne) UpdateCode() *LanguageUpsertOne {
-	return u.Update(func(s *LanguageUpsert) {
-		s.UpdateCode()
 	})
 }
 
@@ -675,6 +645,9 @@ func (u *LanguageUpsertBulk) UpdateNewValues() *LanguageUpsertBulk {
 			if _, exists := b.mutation.CreatedAt(); exists {
 				s.SetIgnore(language.FieldCreatedAt)
 			}
+			if _, exists := b.mutation.Code(); exists {
+				s.SetIgnore(language.FieldCode)
+			}
 		}
 	}))
 	return u
@@ -760,20 +733,6 @@ func (u *LanguageUpsertBulk) SetUpdatedAt(v time.Time) *LanguageUpsertBulk {
 func (u *LanguageUpsertBulk) UpdateUpdatedAt() *LanguageUpsertBulk {
 	return u.Update(func(s *LanguageUpsert) {
 		s.UpdateUpdatedAt()
-	})
-}
-
-// SetCode sets the "code" field.
-func (u *LanguageUpsertBulk) SetCode(v string) *LanguageUpsertBulk {
-	return u.Update(func(s *LanguageUpsert) {
-		s.SetCode(v)
-	})
-}
-
-// UpdateCode sets the "code" field to the value that was provided on create.
-func (u *LanguageUpsertBulk) UpdateCode() *LanguageUpsertBulk {
-	return u.Update(func(s *LanguageUpsert) {
-		s.UpdateCode()
 	})
 }
 
