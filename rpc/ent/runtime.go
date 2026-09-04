@@ -145,5 +145,19 @@ func init() {
 	// timezoneDescCode is the schema descriptor for code field.
 	timezoneDescCode := timezoneFields[0].Descriptor()
 	// timezone.CodeValidator is a validator for the "code" field. It is called by the builders before save.
-	timezone.CodeValidator = timezoneDescCode.Validators[0].(func(string) error)
+	timezone.CodeValidator = func() func(string) error {
+		validators := timezoneDescCode.Validators
+		fns := [...]func(string) error{
+			validators[0].(func(string) error),
+			validators[1].(func(string) error),
+		}
+		return func(code string) error {
+			for _, fn := range fns {
+				if err := fn(code); err != nil {
+					return err
+				}
+			}
+			return nil
+		}
+	}()
 }

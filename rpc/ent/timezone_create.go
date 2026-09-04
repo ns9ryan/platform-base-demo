@@ -324,18 +324,6 @@ func (u *TimezoneUpsert) UpdateUpdatedAt() *TimezoneUpsert {
 	return u
 }
 
-// SetCode sets the "code" field.
-func (u *TimezoneUpsert) SetCode(v string) *TimezoneUpsert {
-	u.Set(timezone.FieldCode, v)
-	return u
-}
-
-// UpdateCode sets the "code" field to the value that was provided on create.
-func (u *TimezoneUpsert) UpdateCode() *TimezoneUpsert {
-	u.SetExcluded(timezone.FieldCode)
-	return u
-}
-
 // SetNameI18n sets the "name_i18n" field.
 func (u *TimezoneUpsert) SetNameI18n(v map[string]string) *TimezoneUpsert {
 	u.Set(timezone.FieldNameI18n, v)
@@ -367,6 +355,9 @@ func (u *TimezoneUpsertOne) UpdateNewValues() *TimezoneUpsertOne {
 		}
 		if _, exists := u.create.mutation.CreatedAt(); exists {
 			s.SetIgnore(timezone.FieldCreatedAt)
+		}
+		if _, exists := u.create.mutation.Code(); exists {
+			s.SetIgnore(timezone.FieldCode)
 		}
 	}))
 	return u
@@ -452,20 +443,6 @@ func (u *TimezoneUpsertOne) SetUpdatedAt(v time.Time) *TimezoneUpsertOne {
 func (u *TimezoneUpsertOne) UpdateUpdatedAt() *TimezoneUpsertOne {
 	return u.Update(func(s *TimezoneUpsert) {
 		s.UpdateUpdatedAt()
-	})
-}
-
-// SetCode sets the "code" field.
-func (u *TimezoneUpsertOne) SetCode(v string) *TimezoneUpsertOne {
-	return u.Update(func(s *TimezoneUpsert) {
-		s.SetCode(v)
-	})
-}
-
-// UpdateCode sets the "code" field to the value that was provided on create.
-func (u *TimezoneUpsertOne) UpdateCode() *TimezoneUpsertOne {
-	return u.Update(func(s *TimezoneUpsert) {
-		s.UpdateCode()
 	})
 }
 
@@ -668,6 +645,9 @@ func (u *TimezoneUpsertBulk) UpdateNewValues() *TimezoneUpsertBulk {
 			if _, exists := b.mutation.CreatedAt(); exists {
 				s.SetIgnore(timezone.FieldCreatedAt)
 			}
+			if _, exists := b.mutation.Code(); exists {
+				s.SetIgnore(timezone.FieldCode)
+			}
 		}
 	}))
 	return u
@@ -753,20 +733,6 @@ func (u *TimezoneUpsertBulk) SetUpdatedAt(v time.Time) *TimezoneUpsertBulk {
 func (u *TimezoneUpsertBulk) UpdateUpdatedAt() *TimezoneUpsertBulk {
 	return u.Update(func(s *TimezoneUpsert) {
 		s.UpdateUpdatedAt()
-	})
-}
-
-// SetCode sets the "code" field.
-func (u *TimezoneUpsertBulk) SetCode(v string) *TimezoneUpsertBulk {
-	return u.Update(func(s *TimezoneUpsert) {
-		s.SetCode(v)
-	})
-}
-
-// UpdateCode sets the "code" field to the value that was provided on create.
-func (u *TimezoneUpsertBulk) UpdateCode() *TimezoneUpsertBulk {
-	return u.Update(func(s *TimezoneUpsert) {
-		s.UpdateCode()
 	})
 }
 

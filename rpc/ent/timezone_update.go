@@ -76,20 +76,6 @@ func (_u *TimezoneUpdate) SetUpdatedAt(v time.Time) *TimezoneUpdate {
 	return _u
 }
 
-// SetCode sets the "code" field.
-func (_u *TimezoneUpdate) SetCode(v string) *TimezoneUpdate {
-	_u.mutation.SetCode(v)
-	return _u
-}
-
-// SetNillableCode sets the "code" field if the given value is not nil.
-func (_u *TimezoneUpdate) SetNillableCode(v *string) *TimezoneUpdate {
-	if v != nil {
-		_u.SetCode(*v)
-	}
-	return _u
-}
-
 // SetNameI18n sets the "name_i18n" field.
 func (_u *TimezoneUpdate) SetNameI18n(v map[string]string) *TimezoneUpdate {
 	_u.mutation.SetNameI18n(v)
@@ -144,11 +130,6 @@ func (_u *TimezoneUpdate) check() error {
 			return &ValidationError{Name: "status", err: fmt.Errorf(`ent: validator failed for field "Timezone.status": %w`, err)}
 		}
 	}
-	if v, ok := _u.mutation.Code(); ok {
-		if err := timezone.CodeValidator(v); err != nil {
-			return &ValidationError{Name: "code", err: fmt.Errorf(`ent: validator failed for field "Timezone.code": %w`, err)}
-		}
-	}
 	return nil
 }
 
@@ -178,9 +159,6 @@ func (_u *TimezoneUpdate) sqlSave(ctx context.Context) (_node int, err error) {
 	}
 	if value, ok := _u.mutation.UpdatedAt(); ok {
 		_spec.SetField(timezone.FieldUpdatedAt, field.TypeTime, value)
-	}
-	if value, ok := _u.mutation.Code(); ok {
-		_spec.SetField(timezone.FieldCode, field.TypeString, value)
 	}
 	if value, ok := _u.mutation.NameI18n(); ok {
 		_spec.SetField(timezone.FieldNameI18n, field.TypeJSON, value)
@@ -253,20 +231,6 @@ func (_u *TimezoneUpdateOne) SetUpdatedAt(v time.Time) *TimezoneUpdateOne {
 	return _u
 }
 
-// SetCode sets the "code" field.
-func (_u *TimezoneUpdateOne) SetCode(v string) *TimezoneUpdateOne {
-	_u.mutation.SetCode(v)
-	return _u
-}
-
-// SetNillableCode sets the "code" field if the given value is not nil.
-func (_u *TimezoneUpdateOne) SetNillableCode(v *string) *TimezoneUpdateOne {
-	if v != nil {
-		_u.SetCode(*v)
-	}
-	return _u
-}
-
 // SetNameI18n sets the "name_i18n" field.
 func (_u *TimezoneUpdateOne) SetNameI18n(v map[string]string) *TimezoneUpdateOne {
 	_u.mutation.SetNameI18n(v)
@@ -334,11 +298,6 @@ func (_u *TimezoneUpdateOne) check() error {
 			return &ValidationError{Name: "status", err: fmt.Errorf(`ent: validator failed for field "Timezone.status": %w`, err)}
 		}
 	}
-	if v, ok := _u.mutation.Code(); ok {
-		if err := timezone.CodeValidator(v); err != nil {
-			return &ValidationError{Name: "code", err: fmt.Errorf(`ent: validator failed for field "Timezone.code": %w`, err)}
-		}
-	}
 	return nil
 }
 
@@ -385,9 +344,6 @@ func (_u *TimezoneUpdateOne) sqlSave(ctx context.Context) (_node *Timezone, err 
 	}
 	if value, ok := _u.mutation.UpdatedAt(); ok {
 		_spec.SetField(timezone.FieldUpdatedAt, field.TypeTime, value)
-	}
-	if value, ok := _u.mutation.Code(); ok {
-		_spec.SetField(timezone.FieldCode, field.TypeString, value)
 	}
 	if value, ok := _u.mutation.NameI18n(); ok {
 		_spec.SetField(timezone.FieldNameI18n, field.TypeJSON, value)

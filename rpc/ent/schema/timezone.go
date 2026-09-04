@@ -18,8 +18,10 @@ type Timezone struct {
 func (Timezone) Fields() []ent.Field {
 	return []ent.Field{
 		field.String("code").
+			NotEmpty().
 			MaxLen(64).
 			Unique().
+			Immutable().
 			Comment("IANA 时区编码"),
 
 		field.JSON("name_i18n", map[string]string{}).
