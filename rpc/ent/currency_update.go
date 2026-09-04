@@ -76,44 +76,9 @@ func (_u *CurrencyUpdate) SetUpdatedAt(v time.Time) *CurrencyUpdate {
 	return _u
 }
 
-// SetCode sets the "code" field.
-func (_u *CurrencyUpdate) SetCode(v string) *CurrencyUpdate {
-	_u.mutation.SetCode(v)
-	return _u
-}
-
-// SetNillableCode sets the "code" field if the given value is not nil.
-func (_u *CurrencyUpdate) SetNillableCode(v *string) *CurrencyUpdate {
-	if v != nil {
-		_u.SetCode(*v)
-	}
-	return _u
-}
-
 // SetNameI18n sets the "name_i18n" field.
 func (_u *CurrencyUpdate) SetNameI18n(v map[string]string) *CurrencyUpdate {
 	_u.mutation.SetNameI18n(v)
-	return _u
-}
-
-// SetCurrencyType sets the "currency_type" field.
-func (_u *CurrencyUpdate) SetCurrencyType(v int64) *CurrencyUpdate {
-	_u.mutation.ResetCurrencyType()
-	_u.mutation.SetCurrencyType(v)
-	return _u
-}
-
-// SetNillableCurrencyType sets the "currency_type" field if the given value is not nil.
-func (_u *CurrencyUpdate) SetNillableCurrencyType(v *int64) *CurrencyUpdate {
-	if v != nil {
-		_u.SetCurrencyType(*v)
-	}
-	return _u
-}
-
-// AddCurrencyType adds value to the "currency_type" field.
-func (_u *CurrencyUpdate) AddCurrencyType(v int64) *CurrencyUpdate {
-	_u.mutation.AddCurrencyType(v)
 	return _u
 }
 
@@ -128,27 +93,6 @@ func (_u *CurrencyUpdate) SetNillableSymbol(v *string) *CurrencyUpdate {
 	if v != nil {
 		_u.SetSymbol(*v)
 	}
-	return _u
-}
-
-// SetAmountFactor sets the "amount_factor" field.
-func (_u *CurrencyUpdate) SetAmountFactor(v int64) *CurrencyUpdate {
-	_u.mutation.ResetAmountFactor()
-	_u.mutation.SetAmountFactor(v)
-	return _u
-}
-
-// SetNillableAmountFactor sets the "amount_factor" field if the given value is not nil.
-func (_u *CurrencyUpdate) SetNillableAmountFactor(v *int64) *CurrencyUpdate {
-	if v != nil {
-		_u.SetAmountFactor(*v)
-	}
-	return _u
-}
-
-// AddAmountFactor adds value to the "amount_factor" field.
-func (_u *CurrencyUpdate) AddAmountFactor(v int64) *CurrencyUpdate {
-	_u.mutation.AddAmountFactor(v)
 	return _u
 }
 
@@ -200,11 +144,6 @@ func (_u *CurrencyUpdate) check() error {
 			return &ValidationError{Name: "status", err: fmt.Errorf(`ent: validator failed for field "Currency.status": %w`, err)}
 		}
 	}
-	if v, ok := _u.mutation.Code(); ok {
-		if err := currency.CodeValidator(v); err != nil {
-			return &ValidationError{Name: "code", err: fmt.Errorf(`ent: validator failed for field "Currency.code": %w`, err)}
-		}
-	}
 	if v, ok := _u.mutation.Symbol(); ok {
 		if err := currency.SymbolValidator(v); err != nil {
 			return &ValidationError{Name: "symbol", err: fmt.Errorf(`ent: validator failed for field "Currency.symbol": %w`, err)}
@@ -240,26 +179,11 @@ func (_u *CurrencyUpdate) sqlSave(ctx context.Context) (_node int, err error) {
 	if value, ok := _u.mutation.UpdatedAt(); ok {
 		_spec.SetField(currency.FieldUpdatedAt, field.TypeTime, value)
 	}
-	if value, ok := _u.mutation.Code(); ok {
-		_spec.SetField(currency.FieldCode, field.TypeString, value)
-	}
 	if value, ok := _u.mutation.NameI18n(); ok {
 		_spec.SetField(currency.FieldNameI18n, field.TypeJSON, value)
 	}
-	if value, ok := _u.mutation.CurrencyType(); ok {
-		_spec.SetField(currency.FieldCurrencyType, field.TypeInt64, value)
-	}
-	if value, ok := _u.mutation.AddedCurrencyType(); ok {
-		_spec.AddField(currency.FieldCurrencyType, field.TypeInt64, value)
-	}
 	if value, ok := _u.mutation.Symbol(); ok {
 		_spec.SetField(currency.FieldSymbol, field.TypeString, value)
-	}
-	if value, ok := _u.mutation.AmountFactor(); ok {
-		_spec.SetField(currency.FieldAmountFactor, field.TypeInt64, value)
-	}
-	if value, ok := _u.mutation.AddedAmountFactor(); ok {
-		_spec.AddField(currency.FieldAmountFactor, field.TypeInt64, value)
 	}
 	if _node, err = sqlgraph.UpdateNodes(ctx, _u.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
@@ -329,44 +253,9 @@ func (_u *CurrencyUpdateOne) SetUpdatedAt(v time.Time) *CurrencyUpdateOne {
 	return _u
 }
 
-// SetCode sets the "code" field.
-func (_u *CurrencyUpdateOne) SetCode(v string) *CurrencyUpdateOne {
-	_u.mutation.SetCode(v)
-	return _u
-}
-
-// SetNillableCode sets the "code" field if the given value is not nil.
-func (_u *CurrencyUpdateOne) SetNillableCode(v *string) *CurrencyUpdateOne {
-	if v != nil {
-		_u.SetCode(*v)
-	}
-	return _u
-}
-
 // SetNameI18n sets the "name_i18n" field.
 func (_u *CurrencyUpdateOne) SetNameI18n(v map[string]string) *CurrencyUpdateOne {
 	_u.mutation.SetNameI18n(v)
-	return _u
-}
-
-// SetCurrencyType sets the "currency_type" field.
-func (_u *CurrencyUpdateOne) SetCurrencyType(v int64) *CurrencyUpdateOne {
-	_u.mutation.ResetCurrencyType()
-	_u.mutation.SetCurrencyType(v)
-	return _u
-}
-
-// SetNillableCurrencyType sets the "currency_type" field if the given value is not nil.
-func (_u *CurrencyUpdateOne) SetNillableCurrencyType(v *int64) *CurrencyUpdateOne {
-	if v != nil {
-		_u.SetCurrencyType(*v)
-	}
-	return _u
-}
-
-// AddCurrencyType adds value to the "currency_type" field.
-func (_u *CurrencyUpdateOne) AddCurrencyType(v int64) *CurrencyUpdateOne {
-	_u.mutation.AddCurrencyType(v)
 	return _u
 }
 
@@ -381,27 +270,6 @@ func (_u *CurrencyUpdateOne) SetNillableSymbol(v *string) *CurrencyUpdateOne {
 	if v != nil {
 		_u.SetSymbol(*v)
 	}
-	return _u
-}
-
-// SetAmountFactor sets the "amount_factor" field.
-func (_u *CurrencyUpdateOne) SetAmountFactor(v int64) *CurrencyUpdateOne {
-	_u.mutation.ResetAmountFactor()
-	_u.mutation.SetAmountFactor(v)
-	return _u
-}
-
-// SetNillableAmountFactor sets the "amount_factor" field if the given value is not nil.
-func (_u *CurrencyUpdateOne) SetNillableAmountFactor(v *int64) *CurrencyUpdateOne {
-	if v != nil {
-		_u.SetAmountFactor(*v)
-	}
-	return _u
-}
-
-// AddAmountFactor adds value to the "amount_factor" field.
-func (_u *CurrencyUpdateOne) AddAmountFactor(v int64) *CurrencyUpdateOne {
-	_u.mutation.AddAmountFactor(v)
 	return _u
 }
 
@@ -466,11 +334,6 @@ func (_u *CurrencyUpdateOne) check() error {
 			return &ValidationError{Name: "status", err: fmt.Errorf(`ent: validator failed for field "Currency.status": %w`, err)}
 		}
 	}
-	if v, ok := _u.mutation.Code(); ok {
-		if err := currency.CodeValidator(v); err != nil {
-			return &ValidationError{Name: "code", err: fmt.Errorf(`ent: validator failed for field "Currency.code": %w`, err)}
-		}
-	}
 	if v, ok := _u.mutation.Symbol(); ok {
 		if err := currency.SymbolValidator(v); err != nil {
 			return &ValidationError{Name: "symbol", err: fmt.Errorf(`ent: validator failed for field "Currency.symbol": %w`, err)}
@@ -523,26 +386,11 @@ func (_u *CurrencyUpdateOne) sqlSave(ctx context.Context) (_node *Currency, err 
 	if value, ok := _u.mutation.UpdatedAt(); ok {
 		_spec.SetField(currency.FieldUpdatedAt, field.TypeTime, value)
 	}
-	if value, ok := _u.mutation.Code(); ok {
-		_spec.SetField(currency.FieldCode, field.TypeString, value)
-	}
 	if value, ok := _u.mutation.NameI18n(); ok {
 		_spec.SetField(currency.FieldNameI18n, field.TypeJSON, value)
 	}
-	if value, ok := _u.mutation.CurrencyType(); ok {
-		_spec.SetField(currency.FieldCurrencyType, field.TypeInt64, value)
-	}
-	if value, ok := _u.mutation.AddedCurrencyType(); ok {
-		_spec.AddField(currency.FieldCurrencyType, field.TypeInt64, value)
-	}
 	if value, ok := _u.mutation.Symbol(); ok {
 		_spec.SetField(currency.FieldSymbol, field.TypeString, value)
-	}
-	if value, ok := _u.mutation.AmountFactor(); ok {
-		_spec.SetField(currency.FieldAmountFactor, field.TypeInt64, value)
-	}
-	if value, ok := _u.mutation.AddedAmountFactor(); ok {
-		_spec.AddField(currency.FieldAmountFactor, field.TypeInt64, value)
 	}
 	_node = &Currency{config: _u.config}
 	_spec.Assign = _node.assignValues

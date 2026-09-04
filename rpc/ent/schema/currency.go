@@ -18,8 +18,10 @@ type Currency struct {
 func (Currency) Fields() []ent.Field {
 	return []ent.Field{
 		field.String("code").
+			NotEmpty().
 			MaxLen(16).
 			Unique().
+			Immutable().
 			Comment("货币编码"),
 
 		field.JSON("name_i18n", map[string]string{}).
@@ -29,16 +31,21 @@ func (Currency) Fields() []ent.Field {
 			Comment("多语言名称"),
 
 		field.Int64("currency_type").
+			Range(1, 2).
+			Immutable().
 			SchemaType(map[string]string{
 				dialect.Postgres: "smallint",
 			}).
 			Comment("货币类型: 1法定货币, 2虚拟货币"),
 
 		field.String("symbol").
+			NotEmpty().
 			MaxLen(16).
 			Comment("货币符号"),
 
 		field.Int64("amount_factor").
+			Min(1).
+			Immutable().
 			SchemaType(map[string]string{
 				dialect.Postgres: "bigint",
 			}).

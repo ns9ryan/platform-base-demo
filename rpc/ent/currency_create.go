@@ -188,6 +188,11 @@ func (_c *CurrencyCreate) check() error {
 	if _, ok := _c.mutation.CurrencyType(); !ok {
 		return &ValidationError{Name: "currency_type", err: errors.New(`ent: missing required field "Currency.currency_type"`)}
 	}
+	if v, ok := _c.mutation.CurrencyType(); ok {
+		if err := currency.CurrencyTypeValidator(v); err != nil {
+			return &ValidationError{Name: "currency_type", err: fmt.Errorf(`ent: validator failed for field "Currency.currency_type": %w`, err)}
+		}
+	}
 	if _, ok := _c.mutation.Symbol(); !ok {
 		return &ValidationError{Name: "symbol", err: errors.New(`ent: missing required field "Currency.symbol"`)}
 	}
@@ -198,6 +203,11 @@ func (_c *CurrencyCreate) check() error {
 	}
 	if _, ok := _c.mutation.AmountFactor(); !ok {
 		return &ValidationError{Name: "amount_factor", err: errors.New(`ent: missing required field "Currency.amount_factor"`)}
+	}
+	if v, ok := _c.mutation.AmountFactor(); ok {
+		if err := currency.AmountFactorValidator(v); err != nil {
+			return &ValidationError{Name: "amount_factor", err: fmt.Errorf(`ent: validator failed for field "Currency.amount_factor": %w`, err)}
+		}
 	}
 	return nil
 }
@@ -368,18 +378,6 @@ func (u *CurrencyUpsert) UpdateUpdatedAt() *CurrencyUpsert {
 	return u
 }
 
-// SetCode sets the "code" field.
-func (u *CurrencyUpsert) SetCode(v string) *CurrencyUpsert {
-	u.Set(currency.FieldCode, v)
-	return u
-}
-
-// UpdateCode sets the "code" field to the value that was provided on create.
-func (u *CurrencyUpsert) UpdateCode() *CurrencyUpsert {
-	u.SetExcluded(currency.FieldCode)
-	return u
-}
-
 // SetNameI18n sets the "name_i18n" field.
 func (u *CurrencyUpsert) SetNameI18n(v map[string]string) *CurrencyUpsert {
 	u.Set(currency.FieldNameI18n, v)
@@ -392,24 +390,6 @@ func (u *CurrencyUpsert) UpdateNameI18n() *CurrencyUpsert {
 	return u
 }
 
-// SetCurrencyType sets the "currency_type" field.
-func (u *CurrencyUpsert) SetCurrencyType(v int64) *CurrencyUpsert {
-	u.Set(currency.FieldCurrencyType, v)
-	return u
-}
-
-// UpdateCurrencyType sets the "currency_type" field to the value that was provided on create.
-func (u *CurrencyUpsert) UpdateCurrencyType() *CurrencyUpsert {
-	u.SetExcluded(currency.FieldCurrencyType)
-	return u
-}
-
-// AddCurrencyType adds v to the "currency_type" field.
-func (u *CurrencyUpsert) AddCurrencyType(v int64) *CurrencyUpsert {
-	u.Add(currency.FieldCurrencyType, v)
-	return u
-}
-
 // SetSymbol sets the "symbol" field.
 func (u *CurrencyUpsert) SetSymbol(v string) *CurrencyUpsert {
 	u.Set(currency.FieldSymbol, v)
@@ -419,24 +399,6 @@ func (u *CurrencyUpsert) SetSymbol(v string) *CurrencyUpsert {
 // UpdateSymbol sets the "symbol" field to the value that was provided on create.
 func (u *CurrencyUpsert) UpdateSymbol() *CurrencyUpsert {
 	u.SetExcluded(currency.FieldSymbol)
-	return u
-}
-
-// SetAmountFactor sets the "amount_factor" field.
-func (u *CurrencyUpsert) SetAmountFactor(v int64) *CurrencyUpsert {
-	u.Set(currency.FieldAmountFactor, v)
-	return u
-}
-
-// UpdateAmountFactor sets the "amount_factor" field to the value that was provided on create.
-func (u *CurrencyUpsert) UpdateAmountFactor() *CurrencyUpsert {
-	u.SetExcluded(currency.FieldAmountFactor)
-	return u
-}
-
-// AddAmountFactor adds v to the "amount_factor" field.
-func (u *CurrencyUpsert) AddAmountFactor(v int64) *CurrencyUpsert {
-	u.Add(currency.FieldAmountFactor, v)
 	return u
 }
 
@@ -459,6 +421,15 @@ func (u *CurrencyUpsertOne) UpdateNewValues() *CurrencyUpsertOne {
 		}
 		if _, exists := u.create.mutation.CreatedAt(); exists {
 			s.SetIgnore(currency.FieldCreatedAt)
+		}
+		if _, exists := u.create.mutation.Code(); exists {
+			s.SetIgnore(currency.FieldCode)
+		}
+		if _, exists := u.create.mutation.CurrencyType(); exists {
+			s.SetIgnore(currency.FieldCurrencyType)
+		}
+		if _, exists := u.create.mutation.AmountFactor(); exists {
+			s.SetIgnore(currency.FieldAmountFactor)
 		}
 	}))
 	return u
@@ -547,20 +518,6 @@ func (u *CurrencyUpsertOne) UpdateUpdatedAt() *CurrencyUpsertOne {
 	})
 }
 
-// SetCode sets the "code" field.
-func (u *CurrencyUpsertOne) SetCode(v string) *CurrencyUpsertOne {
-	return u.Update(func(s *CurrencyUpsert) {
-		s.SetCode(v)
-	})
-}
-
-// UpdateCode sets the "code" field to the value that was provided on create.
-func (u *CurrencyUpsertOne) UpdateCode() *CurrencyUpsertOne {
-	return u.Update(func(s *CurrencyUpsert) {
-		s.UpdateCode()
-	})
-}
-
 // SetNameI18n sets the "name_i18n" field.
 func (u *CurrencyUpsertOne) SetNameI18n(v map[string]string) *CurrencyUpsertOne {
 	return u.Update(func(s *CurrencyUpsert) {
@@ -575,27 +532,6 @@ func (u *CurrencyUpsertOne) UpdateNameI18n() *CurrencyUpsertOne {
 	})
 }
 
-// SetCurrencyType sets the "currency_type" field.
-func (u *CurrencyUpsertOne) SetCurrencyType(v int64) *CurrencyUpsertOne {
-	return u.Update(func(s *CurrencyUpsert) {
-		s.SetCurrencyType(v)
-	})
-}
-
-// AddCurrencyType adds v to the "currency_type" field.
-func (u *CurrencyUpsertOne) AddCurrencyType(v int64) *CurrencyUpsertOne {
-	return u.Update(func(s *CurrencyUpsert) {
-		s.AddCurrencyType(v)
-	})
-}
-
-// UpdateCurrencyType sets the "currency_type" field to the value that was provided on create.
-func (u *CurrencyUpsertOne) UpdateCurrencyType() *CurrencyUpsertOne {
-	return u.Update(func(s *CurrencyUpsert) {
-		s.UpdateCurrencyType()
-	})
-}
-
 // SetSymbol sets the "symbol" field.
 func (u *CurrencyUpsertOne) SetSymbol(v string) *CurrencyUpsertOne {
 	return u.Update(func(s *CurrencyUpsert) {
@@ -607,27 +543,6 @@ func (u *CurrencyUpsertOne) SetSymbol(v string) *CurrencyUpsertOne {
 func (u *CurrencyUpsertOne) UpdateSymbol() *CurrencyUpsertOne {
 	return u.Update(func(s *CurrencyUpsert) {
 		s.UpdateSymbol()
-	})
-}
-
-// SetAmountFactor sets the "amount_factor" field.
-func (u *CurrencyUpsertOne) SetAmountFactor(v int64) *CurrencyUpsertOne {
-	return u.Update(func(s *CurrencyUpsert) {
-		s.SetAmountFactor(v)
-	})
-}
-
-// AddAmountFactor adds v to the "amount_factor" field.
-func (u *CurrencyUpsertOne) AddAmountFactor(v int64) *CurrencyUpsertOne {
-	return u.Update(func(s *CurrencyUpsert) {
-		s.AddAmountFactor(v)
-	})
-}
-
-// UpdateAmountFactor sets the "amount_factor" field to the value that was provided on create.
-func (u *CurrencyUpsertOne) UpdateAmountFactor() *CurrencyUpsertOne {
-	return u.Update(func(s *CurrencyUpsert) {
-		s.UpdateAmountFactor()
 	})
 }
 
@@ -816,6 +731,15 @@ func (u *CurrencyUpsertBulk) UpdateNewValues() *CurrencyUpsertBulk {
 			if _, exists := b.mutation.CreatedAt(); exists {
 				s.SetIgnore(currency.FieldCreatedAt)
 			}
+			if _, exists := b.mutation.Code(); exists {
+				s.SetIgnore(currency.FieldCode)
+			}
+			if _, exists := b.mutation.CurrencyType(); exists {
+				s.SetIgnore(currency.FieldCurrencyType)
+			}
+			if _, exists := b.mutation.AmountFactor(); exists {
+				s.SetIgnore(currency.FieldAmountFactor)
+			}
 		}
 	}))
 	return u
@@ -904,20 +828,6 @@ func (u *CurrencyUpsertBulk) UpdateUpdatedAt() *CurrencyUpsertBulk {
 	})
 }
 
-// SetCode sets the "code" field.
-func (u *CurrencyUpsertBulk) SetCode(v string) *CurrencyUpsertBulk {
-	return u.Update(func(s *CurrencyUpsert) {
-		s.SetCode(v)
-	})
-}
-
-// UpdateCode sets the "code" field to the value that was provided on create.
-func (u *CurrencyUpsertBulk) UpdateCode() *CurrencyUpsertBulk {
-	return u.Update(func(s *CurrencyUpsert) {
-		s.UpdateCode()
-	})
-}
-
 // SetNameI18n sets the "name_i18n" field.
 func (u *CurrencyUpsertBulk) SetNameI18n(v map[string]string) *CurrencyUpsertBulk {
 	return u.Update(func(s *CurrencyUpsert) {
@@ -932,27 +842,6 @@ func (u *CurrencyUpsertBulk) UpdateNameI18n() *CurrencyUpsertBulk {
 	})
 }
 
-// SetCurrencyType sets the "currency_type" field.
-func (u *CurrencyUpsertBulk) SetCurrencyType(v int64) *CurrencyUpsertBulk {
-	return u.Update(func(s *CurrencyUpsert) {
-		s.SetCurrencyType(v)
-	})
-}
-
-// AddCurrencyType adds v to the "currency_type" field.
-func (u *CurrencyUpsertBulk) AddCurrencyType(v int64) *CurrencyUpsertBulk {
-	return u.Update(func(s *CurrencyUpsert) {
-		s.AddCurrencyType(v)
-	})
-}
-
-// UpdateCurrencyType sets the "currency_type" field to the value that was provided on create.
-func (u *CurrencyUpsertBulk) UpdateCurrencyType() *CurrencyUpsertBulk {
-	return u.Update(func(s *CurrencyUpsert) {
-		s.UpdateCurrencyType()
-	})
-}
-
 // SetSymbol sets the "symbol" field.
 func (u *CurrencyUpsertBulk) SetSymbol(v string) *CurrencyUpsertBulk {
 	return u.Update(func(s *CurrencyUpsert) {
@@ -964,27 +853,6 @@ func (u *CurrencyUpsertBulk) SetSymbol(v string) *CurrencyUpsertBulk {
 func (u *CurrencyUpsertBulk) UpdateSymbol() *CurrencyUpsertBulk {
 	return u.Update(func(s *CurrencyUpsert) {
 		s.UpdateSymbol()
-	})
-}
-
-// SetAmountFactor sets the "amount_factor" field.
-func (u *CurrencyUpsertBulk) SetAmountFactor(v int64) *CurrencyUpsertBulk {
-	return u.Update(func(s *CurrencyUpsert) {
-		s.SetAmountFactor(v)
-	})
-}
-
-// AddAmountFactor adds v to the "amount_factor" field.
-func (u *CurrencyUpsertBulk) AddAmountFactor(v int64) *CurrencyUpsertBulk {
-	return u.Update(func(s *CurrencyUpsert) {
-		s.AddAmountFactor(v)
-	})
-}
-
-// UpdateAmountFactor sets the "amount_factor" field to the value that was provided on create.
-func (u *CurrencyUpsertBulk) UpdateAmountFactor() *CurrencyUpsertBulk {
-	return u.Update(func(s *CurrencyUpsert) {
-		s.UpdateAmountFactor()
 	})
 }
 

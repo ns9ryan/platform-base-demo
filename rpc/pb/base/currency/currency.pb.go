@@ -274,14 +274,10 @@ type UpdateCurrencyRequest struct {
 	Id int64 `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
 	// 多语言名称, 为空时不修改
 	NameI18N map[string]string `protobuf:"bytes,2,rep,name=name_i18n,json=nameI18n,proto3" json:"name_i18n,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
-	// 货币类型: 1法定货币, 2虚拟货币
-	CurrencyType *int64 `protobuf:"varint,3,opt,name=currency_type,json=currencyType,proto3,oneof" json:"currency_type,omitempty"`
 	// 货币符号
-	Symbol *string `protobuf:"bytes,4,opt,name=symbol,proto3,oneof" json:"symbol,omitempty"`
-	// 金额换算倍率, 如 USD=100, VND=1
-	AmountFactor *int64 `protobuf:"varint,5,opt,name=amount_factor,json=amountFactor,proto3,oneof" json:"amount_factor,omitempty"`
+	Symbol *string `protobuf:"bytes,3,opt,name=symbol,proto3,oneof" json:"symbol,omitempty"`
 	// 状态: 1启用, 2停用
-	Status        *int64 `protobuf:"varint,6,opt,name=status,proto3,oneof" json:"status,omitempty"`
+	Status        *int64 `protobuf:"varint,4,opt,name=status,proto3,oneof" json:"status,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -330,25 +326,11 @@ func (x *UpdateCurrencyRequest) GetNameI18N() map[string]string {
 	return nil
 }
 
-func (x *UpdateCurrencyRequest) GetCurrencyType() int64 {
-	if x != nil && x.CurrencyType != nil {
-		return *x.CurrencyType
-	}
-	return 0
-}
-
 func (x *UpdateCurrencyRequest) GetSymbol() string {
 	if x != nil && x.Symbol != nil {
 		return *x.Symbol
 	}
 	return ""
-}
-
-func (x *UpdateCurrencyRequest) GetAmountFactor() int64 {
-	if x != nil && x.AmountFactor != nil {
-		return *x.AmountFactor
-	}
-	return 0
 }
 
 func (x *UpdateCurrencyRequest) GetStatus() int64 {
@@ -819,20 +801,16 @@ const file_types_currency_proto_rawDesc = "" +
 	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01B\t\n" +
 	"\a_status\"(\n" +
 	"\x16CreateCurrencyResponse\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\x03R\x02id\"\xf8\x02\n" +
+	"\x02id\x18\x01 \x01(\x03R\x02id\"\x80\x02\n" +
 	"\x15UpdateCurrencyRequest\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\x03R\x02id\x12J\n" +
-	"\tname_i18n\x18\x02 \x03(\v2-.currency.UpdateCurrencyRequest.NameI18nEntryR\bnameI18n\x12(\n" +
-	"\rcurrency_type\x18\x03 \x01(\x03H\x00R\fcurrencyType\x88\x01\x01\x12\x1b\n" +
-	"\x06symbol\x18\x04 \x01(\tH\x01R\x06symbol\x88\x01\x01\x12(\n" +
-	"\ramount_factor\x18\x05 \x01(\x03H\x02R\famountFactor\x88\x01\x01\x12\x1b\n" +
-	"\x06status\x18\x06 \x01(\x03H\x03R\x06status\x88\x01\x01\x1a;\n" +
+	"\tname_i18n\x18\x02 \x03(\v2-.currency.UpdateCurrencyRequest.NameI18nEntryR\bnameI18n\x12\x1b\n" +
+	"\x06symbol\x18\x03 \x01(\tH\x00R\x06symbol\x88\x01\x01\x12\x1b\n" +
+	"\x06status\x18\x04 \x01(\x03H\x01R\x06status\x88\x01\x01\x1a;\n" +
 	"\rNameI18nEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
-	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01B\x10\n" +
-	"\x0e_currency_typeB\t\n" +
-	"\a_symbolB\x10\n" +
-	"\x0e_amount_factorB\t\n" +
+	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01B\t\n" +
+	"\a_symbolB\t\n" +
 	"\a_status\"\x18\n" +
 	"\x16UpdateCurrencyResponse\"$\n" +
 	"\x12GetCurrencyRequest\x12\x0e\n" +

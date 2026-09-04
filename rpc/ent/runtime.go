@@ -42,11 +42,47 @@ func init() {
 	// currencyDescCode is the schema descriptor for code field.
 	currencyDescCode := currencyFields[0].Descriptor()
 	// currency.CodeValidator is a validator for the "code" field. It is called by the builders before save.
-	currency.CodeValidator = currencyDescCode.Validators[0].(func(string) error)
+	currency.CodeValidator = func() func(string) error {
+		validators := currencyDescCode.Validators
+		fns := [...]func(string) error{
+			validators[0].(func(string) error),
+			validators[1].(func(string) error),
+		}
+		return func(code string) error {
+			for _, fn := range fns {
+				if err := fn(code); err != nil {
+					return err
+				}
+			}
+			return nil
+		}
+	}()
+	// currencyDescCurrencyType is the schema descriptor for currency_type field.
+	currencyDescCurrencyType := currencyFields[2].Descriptor()
+	// currency.CurrencyTypeValidator is a validator for the "currency_type" field. It is called by the builders before save.
+	currency.CurrencyTypeValidator = currencyDescCurrencyType.Validators[0].(func(int64) error)
 	// currencyDescSymbol is the schema descriptor for symbol field.
 	currencyDescSymbol := currencyFields[3].Descriptor()
 	// currency.SymbolValidator is a validator for the "symbol" field. It is called by the builders before save.
-	currency.SymbolValidator = currencyDescSymbol.Validators[0].(func(string) error)
+	currency.SymbolValidator = func() func(string) error {
+		validators := currencyDescSymbol.Validators
+		fns := [...]func(string) error{
+			validators[0].(func(string) error),
+			validators[1].(func(string) error),
+		}
+		return func(symbol string) error {
+			for _, fn := range fns {
+				if err := fn(symbol); err != nil {
+					return err
+				}
+			}
+			return nil
+		}
+	}()
+	// currencyDescAmountFactor is the schema descriptor for amount_factor field.
+	currencyDescAmountFactor := currencyFields[4].Descriptor()
+	// currency.AmountFactorValidator is a validator for the "amount_factor" field. It is called by the builders before save.
+	currency.AmountFactorValidator = currencyDescAmountFactor.Validators[0].(func(int64) error)
 	languageMixin := schema.Language{}.Mixin()
 	languageMixinFields1 := languageMixin[1].Fields()
 	_ = languageMixinFields1

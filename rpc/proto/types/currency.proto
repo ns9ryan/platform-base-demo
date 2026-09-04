@@ -53,14 +53,10 @@ message UpdateCurrencyRequest {
 
   // 多语言名称, 为空时不修改
   map<string, string> name_i18n = 2;
-  // 货币类型: 1法定货币, 2虚拟货币
-  optional int64 currency_type = 3;
   // 货币符号
-  optional string symbol = 4;
-  // 金额换算倍率, 如 USD=100, VND=1
-  optional int64 amount_factor = 5;
+  optional string symbol = 3;
   // 状态: 1启用, 2停用
-  optional int64 status = 6;
+  optional int64 status = 4;
 }
 
 // 修改货币响应

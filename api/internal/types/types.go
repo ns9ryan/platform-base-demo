@@ -228,12 +228,10 @@ type TimezoneInfo struct {
 }
 
 type UpdateCurrencyRequest struct {
-	Id           int64             `json:"id" validate:"required,gt=0"`
-	NameI18n     map[string]string `json:"name_i18n,optional"`
-	CurrencyType *int64            `json:"currency_type,optional" validate:"omitempty,oneof=1 2"`
-	Symbol       *string           `json:"symbol,optional" validate:"omitempty,max=16"`
-	AmountFactor *int64            `json:"amount_factor,optional" validate:"omitempty,gt=0"`
-	Status       *int64            `json:"status,optional" validate:"omitempty,oneof=1 2"`
+	Id       int64             `json:"id" validate:"required,gt=0"`
+	NameI18n map[string]string `json:"name_i18n,optional"`
+	Symbol   *string           `json:"symbol,optional" validate:"omitempty,max=16"`
+	Status   *int64            `json:"status,optional" validate:"omitempty,oneof=1 2"`
 }
 
 type UpdateCurrencyResponse struct {

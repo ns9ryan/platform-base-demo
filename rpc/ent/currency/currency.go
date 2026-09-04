@@ -72,8 +72,12 @@ var (
 	UpdateDefaultUpdatedAt func() time.Time
 	// CodeValidator is a validator for the "code" field. It is called by the builders before save.
 	CodeValidator func(string) error
+	// CurrencyTypeValidator is a validator for the "currency_type" field. It is called by the builders before save.
+	CurrencyTypeValidator func(int64) error
 	// SymbolValidator is a validator for the "symbol" field. It is called by the builders before save.
 	SymbolValidator func(string) error
+	// AmountFactorValidator is a validator for the "amount_factor" field. It is called by the builders before save.
+	AmountFactorValidator func(int64) error
 )
 
 // OrderOption defines the ordering options for the Currency queries.
